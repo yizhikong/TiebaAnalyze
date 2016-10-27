@@ -1,0 +1,79 @@
+SQLite version 3.14.2 2016-09-12 18:50:49
+Enter ".help" for usage hints.
+Connected to a transient in-memory database.
+Use ".open FILENAME" to reopen on a persistent database.
+sqlite> .open tieba.db
+sqlite> CREATE TABLE TIEBA(
+   ...>     TNAME NCHAR(18) PRIMARY KEY NOT NULL,
+   ...>     SLOGAN TEXT,
+   ...>     MEMNUM INT,
+   ...>     INFONUM INT
+   ...> );
+sqlite> CREATE TABLE USER(
+   ...>     UID INT PRIMARY KEY NOT NULL,
+   ...>     UNAME NCHAR(18) NOT NULL,
+   ...>     SEX NCHAR(5),
+   ...>     BIRTHDAY NCHAR(15),
+   ...>     BIRTHPLACE NCHAR(15),
+   ...>     ADDRESS NCHAR(15),
+   ...>     SCHOOL NCHAR(20)
+   ...> );
+sqlite> CREATE TABLE MEMBER(
+   ...>     UID INT,
+   ...>     TNAME NCHAR(18),
+   ...>     LEVEL INT,
+   ...>     ISTOP INT DEFAULT 0,
+   ...>     FOREIGN KEY(UID) REFERENCES USER(UID) ON DELETE CASCADE ON UPDATE CA
+SCADE,
+   ...>     FOREIGN KEY(TNAME) REFERENCES TIEBA(TNAME) ON DELETE CASCADE ON UPDA
+TE CASCADE
+   ...> );
+sqlite> CREATE TABLE TIEZI(
+   ...>     TID INT PRIMARY KEY NOT NULL,
+   ...>     TITLE NCHAR(30),
+   ...>     PAGENUM INT,
+   ...>     REPLYNUM INT,
+   ...>     FID INT,
+   ...>     LZ NCHAR(18)
+   ...> );
+sqlite> CREATE TABLE COMMENT(
+   ...>     PID INT PRIMARY KEY NOT NULL,
+   ...>     UID INT,
+   ...>     UNAME NCHAR(18) NOT NULL,
+   ...>     TIME CHAR(30),
+   ...>     FLOOR INT DEFAULT 0,
+   ...>     CONTENT TEXT,
+   ...>     TID INT,
+   ...>     FOREIGN KEY(TID) REFERENCES TIEZI(TID) ON DELETE CASCADE ON UPDATE C
+ASCADE
+   ...> );
+sqlite> CREATE TABLE CCOMMENT(
+   ...>     SPID INT PRIMARY KEY NOT NULL,
+   ...>     UID INT,
+   ...>     UNAME NCHAR(18) NOT NULL,
+   ...>     TIME CHAR(30),
+   ...>     CONTENT TEXT,
+   ...>     PID INT,
+   ...>     FOREIGN KEY(PID) REFERENCES COMMENT(PID) ON DELETE CASCADE ON UPDATE
+ CASCADE
+   ...> );
+sqlite> CREATE TABLE FANS(
+   ...>     UNAME NCHAR(18),
+   ...>     FANSNAME NCHAR(18),
+   ...>     FOREIGN KEY(UNAME) REFERENCES USER(UNAME) ON DELETE CASCADE ON UPDAT
+E CASCADE
+   ...> );
+sqlite> CREATE TABLE FOLLOWS(
+   ...>     UNAME NCHAR(18),
+   ...>     FOLLOWNAME NCHAR(18),
+   ...>     FOREIGN KEY(UNAME) REFERENCES USER(UNAME) ON DELETE CASCADE ON UPDAT
+E CASCADE
+   ...> );
+sqlite> CREATE TABLE REPLY(
+   ...>     UNAME NCHAR(18),
+   ...>     REPLYTO NCHAR(18),
+   ...>     COUNT INT
+   ...> );
+sqlite> CREATE INDEX CCMT_PID ON CCOMMENT (PID);
+sqlite> CREATE INDEX CMT_TID ON COMMENT (TID);
+sqlite> show many index and i am lazy to list....

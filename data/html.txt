@@ -1,0 +1,17 @@
+<!Doctype html>
+<html>
+<head>
+    <meta http-equiv=Content-Type content="text/html;charset=utf-8">
+    <title>%s</title>
+    <style type="text/css">
+    .one {
+        background-color:rgb(230,230,240);
+    }
+    .content {
+        margin-left:2cm;
+        margin-bottom:0.5cm;
+    }
+    </style>
+</head>
+<body>%s</body>
+</html>
